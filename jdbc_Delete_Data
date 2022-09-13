@@ -1,0 +1,23 @@
+//database use MYSQL
+//table name is registration
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class Delete_From_DB {
+	public static void main(String[] args) {
+		try {
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_x","root","Saqeeb09@");
+			System.out.println(con);
+			Statement stmnt=con.createStatement();
+			stmnt.executeUpdate("Delete from registration");//delete table from database
+     // stmnt.executeUpdate("Delete from registration where email='saqeebalam09@gmail.com'");//this statement delete rows
+			con.close();
+		} catch (Exception e) {
+         e.printStackTrace();
+		}
+	}
+
+}
+
