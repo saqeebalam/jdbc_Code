@@ -1,0 +1,25 @@
+//database is use MYSQL
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class Update_Data {
+	public static void main(String[] args) {
+		try {
+			//connect to data base test_x
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_Delete","root","Saqeeb09@");
+			System.out.println(con);                   //("url","userName","passWord") 
+			//code to insert record in test_x
+             Statement stmnt= con.createStatement();
+             stmnt.executeUpdate("UPDATE about SET name = 'Saqeeb Alam' where  name='Saqeeb'");
+             //close database connection
+             con.close();
+			
+		} catch (Exception e) {
+          e.printStackTrace();
+		}
+	}
+	
+
+}
