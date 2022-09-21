@@ -1,0 +1,110 @@
+package jdbc_demo_examp;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class CURD_Switch {
+	public static void main(String[] args) {
+		int x=0;
+		Scanner sc=new Scanner(System.in);
+		
+		while(x<1) {
+		System.out.println(" Enter 1=Insert Data in DB \n Enter 2=Delete Data in DB \n Enter 3=Read Data in DB \n Enter 4=Update Data in DB");
+		int option=sc.nextInt();
+		switch (option) {
+		case 1:{//for inserting data in database from cmd
+			try {
+				System.out.println("Enter Name=");
+				String name1=sc.next();
+				System.out.println("Enter City =");
+	            String city=sc.next();
+				System.out.println("Enter Email=");
+				String email=sc.next();
+				System.out.println("Enter Mobile=");
+				String mobile=sc.next();
+				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_x","root","Saqeeb09@");
+				System.out.println(con);
+				Statement stmnt=con.createStatement();
+				stmnt.executeUpdate("insert into registration values('"+name1+"','"+city+"','"+email+"','"+mobile+"')");
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			System.out.println("Data update");
+			break;
+		}
+		case 2:{//code to delete data from database
+			try {
+				//System.out.println("Enter Which field to Delete (Name,city,email,mobile)");
+				//String field=sc.next();
+				System.out.println("Enter Name to be Delete Row=");
+				String fieldData=sc.next();
+				
+				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_x","root","Saqeeb09@");
+				System.out.println(con);
+				Statement stmnt=con.createStatement();
+				stmnt.executeUpdate("Delete from registration where name1 = '"+fieldData+"'");//delete table from database
+				con.close();
+			} catch (Exception e) {
+	         e.printStackTrace();
+			}
+			System.out.println("Data Deleted");
+			break;
+		}
+		case 3:{//data to read from database
+			try {
+				//connection code
+				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_x","root","Saqeeb09@");
+				System.out.println("Connaction Established="+con);
+				//query
+				Statement stmnt = con.createStatement();
+				ResultSet set = stmnt.executeQuery("Select * from registration");
+				while(set.next()) {
+				System.out.print(set.getString(1));//here each statement is printing each column
+				System.out.print("\t"+set.getString(2));
+				System.out.print("\t"+set.getString(3));
+				System.out.println("\t"+set.getString(4));
+				}
+				//close db
+				con.close();
+			} catch (Exception e) {
+	          e.printStackTrace();
+			}
+			System.out.println("Reading Data is Done");
+			break;
+		}
+		case 4:{//Data to be update
+			try {
+				System.out.println("Enter city to be Update=");
+				String field=sc.next();
+				System.out.println("Enter name of person whichc city update=");
+				String fieldData=sc.next();
+				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_x","root","Saqeeb09@");
+				System.out.println(con);
+				Statement stmnt=con.createStatement();
+				stmnt.executeUpdate("update registration set city='"+field+"' where name1='"+fieldData+"'");
+			} catch (Exception e) {
+	         e.printStackTrace();
+			}
+			System.out.println("Updateing done in database");
+			break;
+		}
+
+		default:{
+			System.out.println("Invalid Input");
+			break;
+		}
+		}
+		
+	System.out.println("Enter 0 to continue 1 for stop");
+	x=sc.nextInt();
+		}
+		sc.close();
+		System.out.println("Exited");
+	}
+
+}
